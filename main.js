@@ -1,5 +1,5 @@
-import {fetchSimple,fetchZone,queryAttributesAll,queryAttributes} from './overpass-api.js';
-import {getCoords} from "./getLocation.js"
+import { fetchSimple, fetchZone, queryAttributesAll, queryAttributes } from './overpass-api.js';
+import { getCoords } from "./getLocation.js"
 // import * as overpass from './overass-api.js'
 // console.log(overpass)
 
@@ -12,12 +12,12 @@ import {getCoords} from "./getLocation.js"
 // let cords = navigator.geolocation.getCurrentPosition(loc, error, options);
 // console.log(cords);
 
-const coords = await getCoords();
-console.log(coords);
-function test (params){
-console.log(params);
-}
-fetchAttempt(() => fetchZone(46.51351558059737, 6.610379219055176, 2), { attempts: 5 })
+// const coords = await getCoords();
+
+//WAIT COORDS TO START THE FEETCH FUNCTION
+async function waitCoords() {
+    const coords = await getCoords();
+    fetchAttempt(() => fetchZone(coords.lat, coords.long, 2), { attempts: 5 })
     .then(xml => {
         const coords = queryAttributesAll(xml, ':scope > node') // :scope is a reference to "resp"
         // const tags = queryAttributes(xml, 'tag')
@@ -26,6 +26,11 @@ fetchAttempt(() => fetchZone(46.51351558059737, 6.610379219055176, 2), { attempt
     .catch(e => {
         console.log(e)
     })
+    // return test;
+}
+await waitCoords()
+
+
 
 async function fetchAttempt(func, { attempts = 5 }) {
 
@@ -44,7 +49,7 @@ async function fetchAttempt(func, { attempts = 5 }) {
 
     return response
 }
-  
+
         // }) => {
 
         //         .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
