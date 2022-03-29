@@ -21,7 +21,7 @@ async function waitCoords() {
     .then(xml => {
         const coords = queryAttributesAll(xml, ':scope > node') // :scope is a reference to "resp"
         // const tags = queryAttributes(xml, 'tag')
-        console.log(coords)
+        console.log(coords);
     })
     .catch(e => {
         console.log(e)
@@ -30,12 +30,8 @@ async function waitCoords() {
 }
 await waitCoords()
 
-
-
 async function fetchAttempt(func, { attempts = 5 }) {
-
     let response
-
     try {
         response = await func()
     } catch (e) {
@@ -46,10 +42,8 @@ async function fetchAttempt(func, { attempts = 5 }) {
             throw new Error(e);
         }
     }
-
     return response
 }
-
         // }) => {
 
         //         .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
