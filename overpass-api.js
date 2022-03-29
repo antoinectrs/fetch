@@ -4,7 +4,7 @@ export function fetchZone(latitude, longitude, distance = 2) {
 
     return fetchSimple(`
     node
-        [leisure=playground]
+        [man_made=surveillance]
         (${bbox.join(',')});
     out;
     `)
@@ -63,7 +63,7 @@ export function queryAttributes(parent, selector) {
 
 export function queryAttributesAll(parent, selector) {
     const nodes = parent.querySelectorAll(selector);
-    return [...nodes].map(getAttributes)
+    return [...nodes].map(getAttributes);
 }
 
 
