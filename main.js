@@ -16,14 +16,16 @@ import { getCoords, drawMap ,drawPastArea} from "./getLocation.js"
 
 //WAIT COORDS TO START THE FEETCH FUNCTION
 async function waitCoords() {
-    const coords = await getCoords();
-    drawMap(coords.lat, coords.long)
-    fetchAttempt(() => fetchZone(coords.lat, coords.long, 2), { attempts: 5 })
+    const myPos = await getCoords();
+   
+    drawMap(myPos.lat, myPos.long)
+    fetchAttempt(() => fetchZone(myPos.lat, myPos.long, 2), { attempts: 5 })
     .then(xml => {
         const coords = queryAttributesAll(xml, ':scope > node') // :scope is a reference to "resp"
         // const tags = queryAttributes(xml, 'tag')
         console.log(coords);
         drawPastArea(coords)
+        // console.log(myPos);
     })
     .catch(e => {
         console.log(e)
