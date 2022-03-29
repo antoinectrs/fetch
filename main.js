@@ -1,5 +1,5 @@
 import { fetchSimple, fetchZone, queryAttributesAll, queryAttributes } from './overpass-api.js';
-import { getCoords } from "./getLocation.js"
+import { getCoords, drawMap ,drawPastArea} from "./getLocation.js"
 // import * as overpass from './overass-api.js'
 // console.log(overpass)
 
@@ -17,11 +17,13 @@ import { getCoords } from "./getLocation.js"
 //WAIT COORDS TO START THE FEETCH FUNCTION
 async function waitCoords() {
     const coords = await getCoords();
+    drawMap(coords.lat, coords.long)
     fetchAttempt(() => fetchZone(coords.lat, coords.long, 2), { attempts: 5 })
     .then(xml => {
         const coords = queryAttributesAll(xml, ':scope > node') // :scope is a reference to "resp"
         // const tags = queryAttributes(xml, 'tag')
         console.log(coords);
+        drawPastArea(coords)
     })
     .catch(e => {
         console.log(e)
